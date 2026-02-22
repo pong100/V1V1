@@ -1,0 +1,886 @@
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua")))()
+
+local Window = MakeWindow({  
+     Hub = {  
+     Title = "Noobscript                                       v1 ",  
+     Animation = "Youtube: Noobscript"  
+     },  
+    Key = {  
+    KeySystem = false,  
+    Title = "Key System",  
+    Description = "",  
+    KeyLink = "",  
+    Keys = {"1234"},  
+    Notifi = {  
+    Notifications = true,  
+    CorrectKey = "Running the Script...",  
+   Incorrectkey = "The key is incorrect",  
+   CopyKeyLink = "Copied to Clipboard"  
+  }  
+}
+
+})
+
+MinimizeButton({  
+   Image = "http://www.roblox.com/asset/?id=72501233946347",  
+   Size = {30, 30},  
+   Color = Color3.fromRGB(10, 10, 10),  
+   Corner = true,  
+   Stroke = false,  
+   StrokeColor = Color3.fromRGB(255, 0, 0)  
+  })
+
+------ Tab
+local Tab1o = MakeTab({Name = "Main"})
+local Tab2o = MakeTab({Name = "Auto Farm"})
+
+-- =============================
+-- SECTION 1
+-- =============================
+AddSection(Tab1o, {Name = "GODMODE"})
+
+AddButton(Tab1o, {  
+ Name = "GODMODE1",  
+Callback = function()  
+-- =========================================
+-- SAFE DESTROY
+-- =========================================
+local function safeDestroy(obj)
+	if obj then
+		pcall(function()
+			obj:Destroy()
+		end)
+	end
+end
+
+-- =========================================
+-- XOÁ MAP CŨ (3 lần cho chắc)
+-- =========================================
+for i = 1, 3 do
+	task.wait(0.5)
+
+	local defaultMap = workspace:FindFirstChild("DefaultMap")
+	if defaultMap then
+		safeDestroy(defaultMap:FindFirstChild("RightWalls"))
+
+		local walls = defaultMap:FindFirstChild("Walls")
+		if walls then
+			local children = walls:GetChildren()
+
+			if children[3] then
+				safeDestroy(children[3]:FindFirstChild("Mud"))
+			end
+
+			if children[4] then
+				safeDestroy(children[4]:FindFirstChild("Mud"))
+			end
+
+			safeDestroy(children[6])
+		end
+	end
+
+	local shared = workspace:FindFirstChild("DefaultMap_SharedInstances")
+	if shared then
+		safeDestroy(shared:FindFirstChild("VIPWalls"))
+
+		local allowed = shared:FindFirstChild("AllowedSpaces")
+		if allowed then
+			safeDestroy(allowed:FindFirstChild("Waves2"))
+		end
+	end
+
+	local misc = workspace:FindFirstChild("Misc")
+	if misc then
+		safeDestroy(misc:FindFirstChild("BrickAddition"))
+	end
+end
+
+-- =========================================
+-- SETUP
+-- =========================================
+local segmentLength = 200
+local color = Color3.fromRGB(168, 84, 36)
+
+local folder = Instance.new("Folder")
+folder.Name = "GeneratedBlocks"
+folder.Parent = workspace
+
+-- =========================================
+-- FUNCTION TẠO PART THƯỜNG
+-- =========================================
+local function createPart(p1, p2, fixedY, thicknessY)
+	local size = Vector3.new(
+		math.abs(p2.X - p1.X),
+		thicknessY,
+		math.abs(p2.Z - p1.Z)
+	)
+
+	local center = Vector3.new(
+		(p1.X + p2.X) / 2,
+		fixedY,
+		(p1.Z + p2.Z) / 2
+	)
+
+	local part = Instance.new("Part")
+	part.Size = size
+	part.Position = center
+	part.Anchored = true
+	part.Material = Enum.Material.SmoothPlastic
+	part.Color = color
+	part.Parent = folder
+end
+
+-- =========================================
+-- FUNCTION CHIA SEGMENT
+-- =========================================
+local function createSegments(p1, p2, fixedY, thicknessY)
+	local minX = math.min(p1.X, p2.X)
+	local maxX = math.max(p1.X, p2.X)
+
+	local minZ = math.min(p1.Z, p2.Z)
+	local maxZ = math.max(p1.Z, p2.Z)
+
+	local depth = maxZ - minZ
+	local centerZ = (minZ + maxZ) / 2
+
+	local currentX = minX
+
+	while currentX < maxX do
+		local nextX = math.min(currentX + segmentLength, maxX)
+		local width = nextX - currentX
+
+		local part = Instance.new("Part")
+		part.Size = Vector3.new(width, thicknessY, depth)
+		part.Position = Vector3.new(
+			currentX + width / 2,
+			fixedY,
+			centerZ
+		)
+		part.Anchored = true
+		part.Material = Enum.Material.SmoothPlastic
+		part.Color = color
+		part.Parent = folder
+
+		currentX = nextX
+	end
+end
+
+-- =========================================
+-- 1️⃣ SÀN DƯỚI (chia đoạn)
+-- =========================================
+createSegments(
+	Vector3.new(152.10, 0, 184.99),
+	Vector3.new(4347.43, 0, 130.95),
+	-2.999980926513672,
+	8
+)
+
+-- =========================================
+-- 2️⃣ TƯỜNG TRÊN (chia đoạn)
+-- =========================================
+createSegments(
+	Vector3.new(150.72, 3.04, 184.19),
+	Vector3.new(4346.45, 122.44, 180.40),
+	29.00002098083496,
+	122.44 - 3.04
+)
+
+-- =========================================
+-- 3️⃣ NHÓM 1 (block thường)
+-- =========================================
+local zOffset = 3
+local fixedY1 = -2.999980926513672
+local thicknessY1 = 8
+
+local regions1 = {
+	{p1 = Vector3.new(152.87, 0, -184.93 + zOffset), p2 = Vector3.new(1529.30, 0, -131.52 + zOffset)},
+	{p1 = Vector3.new(1529.08, 0, -184.42 + zOffset), p2 = Vector3.new(3222.14, 0, -132.60 + zOffset)},
+	{p1 = Vector3.new(3222.78, 0, -183.16 + zOffset), p2 = Vector3.new(4345.72, 0, -132.42 + zOffset)},
+}
+
+for _, region in ipairs(regions1) do
+	createPart(region.p1, region.p2, fixedY1, thicknessY1)
+end
+
+-- =========================================
+-- 4️⃣ NHÓM 2 (block thường)
+-- =========================================
+local fixedY2 = 29.00002098083496
+local thicknessY2 = 70
+
+local regions2 = {
+	{p1 = Vector3.new(153.38, 0, -181.92), p2 = Vector3.new(758.75, 0, -180.31)},
+	{p1 = Vector3.new(759.33, 0, -180.90), p2 = Vector3.new(1578.33, 0, -178.80)},
+	{p1 = Vector3.new(1579.58, 0, -179.77), p2 = Vector3.new(4346.36, 0, -176.65)},
+	{p1 = Vector3.new(3987.58, 0, -177.50), p2 = Vector3.new(4345.98, 0, -179.01)},
+	{p1 = Vector3.new(1576.12, 0, -180.58), p2 = Vector3.new(1938.14, 0, -178.08)},
+}
+
+for _, region in ipairs(regions2) do
+	createPart(region.p1, region.p2, fixedY2, thicknessY2)
+end
+end
+})
+AddButton(Tab1o, {  
+ Name = "GODMODE2",  
+Callback = function()  
+-- =========================================
+-- SAFE DESTROY
+-- =========================================
+local function safeDestroy(obj)
+	if obj then
+		pcall(function()
+			obj:Destroy()
+		end)
+	end
+end
+
+-- =========================================
+-- XOÁ MAP CŨ
+-- =========================================
+for i = 1, 3 do
+	task.wait(0.5)
+
+	safeDestroy(
+		workspace:FindFirstChild("DefaultMap") 
+		and workspace.DefaultMap:FindFirstChild("Spawners")
+	)
+
+	safeDestroy(
+		workspace:FindFirstChild("DefaultMap_SharedInstances") 
+		and workspace.DefaultMap_SharedInstances:FindFirstChild("Floors")
+	)
+
+	safeDestroy(
+		workspace:FindFirstChild("DefaultMap") 
+		and workspace.DefaultMap:FindFirstChild("FirstFloor")
+	)
+end
+
+-- =========================================
+-- TẠO SÀN CHIA ĐOẠN
+-- =========================================
+local p1 = Vector3.new(154.31, -4.93, -129.41)
+local p2 = Vector3.new(4352.29, -1.99, 131.41)
+
+local fixedY = -6.5
+local segmentLength = 200
+local color = Color3.fromRGB(168, 84, 36)
+
+local minX = math.min(p1.X, p2.X)
+local maxX = math.max(p1.X, p2.X)
+
+local minZ = math.min(p1.Z, p2.Z)
+local maxZ = math.max(p1.Z, p2.Z)
+
+local height = math.abs(p2.Y - p1.Y)
+local depth = maxZ - minZ
+local centerZ = (minZ + maxZ) / 2
+
+local currentX = minX
+
+while currentX < maxX do
+	local nextX = math.min(currentX + segmentLength, maxX)
+	local width = nextX - currentX
+	
+	local part = Instance.new("Part")
+	part.Size = Vector3.new(width, height, depth)
+	part.Position = Vector3.new(
+		currentX + width / 2,
+		fixedY,
+		centerZ
+	)
+	part.Anchored = true
+	part.Material = Enum.Material.SmoothPlastic
+	part.Color = color
+	part.Parent = workspace
+	
+	currentX = nextX
+end
+end
+})
+
+-- =============================
+-- SECTION 2
+-- =============================
+AddSection(Tab1o, {Name = "Teleport"})
+
+-- =============================
+-- RARITY TELEPORT SYSTEM (FIXED)
+-- =============================
+
+local rarityPoints = {
+Celestial = Vector3.new(4022.03, -2.74, 11.40),
+Secret = Vector3.new(3670.11, -2.74, -20.08),
+Cosmic = Vector3.new(2252.22, -2.74, 32.00),
+Mythic = Vector3.new(1074.81, -2.74, -33.81),
+Legendary = Vector3.new(756.43, -2.74, -7.89),
+Epic = Vector3.new(540.93, -2.74, 14.40),
+Rare = Vector3.new(396.18, -2.74, -6.87),
+Uncommon = Vector3.new(282.81, -2.74, -5.80),
+Common = Vector3.new(202.67, -2.74, 14.73)
+}
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+local selectedRarity = "Common"
+local isFlying = false
+local cooldown = false
+
+local flySpeed = 1000
+local targetY = -2.74
+
+-- =============================
+-- FLY FUNCTION
+-- =============================
+local function flyToTarget(targetPosition)
+
+if isFlying or cooldown then  
+    return  
+end  
+
+isFlying = true  
+cooldown = true  
+
+local character = player.Character or player.CharacterAdded:Wait()  
+local hrp = character:WaitForChild("HumanoidRootPart")  
+local humanoid = character:WaitForChild("Humanoid")  
+
+-- Noclip  
+local noclip  
+noclip = RunService.Stepped:Connect(function()  
+    for _, v in pairs(character:GetDescendants()) do  
+        if v:IsA("BasePart") then  
+            v.CanCollide = false  
+        end  
+    end  
+end)  
+
+-- BodyVelocity  
+local bodyVelocity = Instance.new("BodyVelocity")  
+bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)  
+bodyVelocity.Parent = hrp  
+
+-- Adjust Y first  
+local adjustPos = Vector3.new(hrp.Position.X, targetY, hrp.Position.Z)  
+hrp.CFrame = CFrame.new(adjustPos)  
+
+repeat  
+    local direction = (targetPosition - hrp.Position)  
+    local distance = direction.Magnitude  
+
+    local speed = flySpeed  
+    if distance < 50 then  
+        speed = 150  
+    end  
+
+    bodyVelocity.Velocity = direction.Unit * speed  
+    task.wait()  
+until (hrp.Position - targetPosition).Magnitude < 3  
+
+bodyVelocity:Destroy()  
+hrp.CFrame = CFrame.new(targetPosition)  
+
+if noclip then  
+    noclip:Disconnect()  
+end  
+
+for _, v in pairs(character:GetDescendants()) do  
+    if v:IsA("BasePart") then  
+        v.CanCollide = true  
+    end  
+end  
+
+isFlying = false  
+
+task.delay(3, function()  
+    cooldown = false  
+end)  
+
+game.StarterGui:SetCore("SendNotification", {  
+    Title = "Teleport Complete",  
+    Text = "Đã tới: "..selectedRarity,  
+    Duration = 3  
+})
+
+end
+
+-- =============================
+-- DROPDOWN (CHỈ CHỌN)
+-- =============================
+AddDropdown(Tab1o, {
+Name = "Select Rarity",
+Options = {
+"Celestial",
+"Secret",
+"Cosmic",
+"Mythic",
+"Legendary",
+"Epic",
+"Rare",
+"Uncommon",
+"Common"
+},
+Default = "Common",
+Multi = false,
+Callback = function(Value)
+selectedRarity = Value
+
+game.StarterGui:SetCore("SendNotification", {  
+        Title = "Rarity Selected",  
+        Text = Value,  
+        Duration = 2  
+    })  
+end
+
+})
+
+-- =============================
+-- BUTTON KÍCH HOẠT
+-- =============================
+AddButton(Tab1o, {
+Name = "Teleport To Selected",
+Callback = function()
+
+if isFlying then  
+        return  
+    end  
+
+    local target = rarityPoints[selectedRarity]  
+    if target then  
+        flyToTarget(target)  
+    end  
+end
+
+})
+-- Instant Grab FIXED (Stop hoàn toàn khi tắt)
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local instantGrab = false
+local grabConnection
+
+local function restorePrompts()
+	for _, folder in pairs({
+		workspace:FindFirstChild("ActiveLuckyBlocks"),
+		workspace:FindFirstChild("ActiveBrainrots")
+	}) do
+		if folder then
+			for _, obj in pairs(folder:GetDescendants()) do
+				if obj:IsA("ProximityPrompt") then
+					obj.HoldDuration = 1 -- trả lại mặc định
+				end
+			end
+		end
+	end
+end
+
+AddToggle(Tab1o, {
+	Name = "Instant Grab",
+	Default = false,
+	Callback = function(Value)
+		instantGrab = Value
+		
+		if grabConnection then
+			grabConnection:Disconnect()
+			grabConnection = nil
+		end
+		
+		if instantGrab then
+			grabConnection = RunService.Heartbeat:Connect(function()
+				if not instantGrab then return end
+				
+				local char = player.Character
+				if not char then return end
+				
+				for _, folder in pairs({
+					workspace:FindFirstChild("ActiveLuckyBlocks"),
+					workspace:FindFirstChild("ActiveBrainrots")
+				}) do
+					if folder then
+						for _, obj in pairs(folder:GetDescendants()) do
+							if obj:IsA("ProximityPrompt") then
+								obj.HoldDuration = 0
+								obj.RequiresLineOfSight = false
+								
+								pcall(function()
+									fireproximityprompt(obj)
+								end)
+							end
+						end
+					end
+				end
+			end)
+		else
+			restorePrompts()
+		end
+	end
+})
+-- =============================
+-- SECTION 3
+-- =============================
+-- AUTO FARM TIER SYSTEM (FIX RESPAWN)
+-- =============================
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+-- ===== SETTINGS =====
+local TARGET_Y = -2.74
+local FLY_SPEED = 1000
+local BELOW_OFFSET = -6
+local FINAL_POSITION = Vector3.new(128.63, 3.26, 17.39)
+
+-- ===== STATE =====
+local selectedTier = "Common"
+local tierEnabled = false
+local farmThread = nil
+local noclipConnection = nil
+
+-- =============================
+-- DROPDOWN
+-- =============================
+
+AddDropdown(Tab2o, {  
+    Name = "Select Tier",
+    Options = {
+        "Infinity","Divine","Celestial","Secret",
+        "Cosmic","Mythical","Legendary",
+        "Epic","Rare","Uncommon","Common"
+    },
+    Default = "Common",
+    Multi = false,
+    Callback = function(Value)
+        selectedTier = Value
+    end
+})
+
+-- =============================
+-- CORE FARM
+-- =============================
+
+local function startTierFarm()
+
+    -- nếu còn thread cũ thì huỷ
+    farmThread = nil
+
+    farmThread = task.spawn(function()
+
+        while tierEnabled do
+
+            local character = player.Character
+            if not character then task.wait() continue end
+
+            local root = character:WaitForChild("HumanoidRootPart", 2)
+            if not root then task.wait() continue end
+
+            local folder = workspace:FindFirstChild("ActiveBrainrots")
+            if not folder then task.wait(1) continue end
+
+            local tierFolder = folder:FindFirstChild(selectedTier)
+            if not tierFolder or #tierFolder:GetChildren() == 0 then
+                task.wait(1)
+                continue
+            end
+
+            -- ===== NOCLIP =====
+            if not noclipConnection then
+                noclipConnection = RunService.Stepped:Connect(function()
+                    if tierEnabled and player.Character then
+                        for _, v in pairs(player.Character:GetDescendants()) do
+                            if v:IsA("BasePart") then
+                                v.CanCollide = false
+                            end
+                        end
+                    end
+                end)
+            end
+
+            -- ===== BODY MOVERS =====
+            local bv = Instance.new("BodyVelocity")
+            bv.MaxForce = Vector3.new(1e9,1e9,1e9)
+            bv.Parent = root
+
+            local bp = Instance.new("BodyPosition")
+            bp.MaxForce = Vector3.new(1e9,1e9,1e9)
+            bp.P = 10000
+            bp.D = 1000
+            bp.Parent = root
+
+            local function flyTo(position)
+                bp.Position = position
+
+                while tierEnabled
+                and player.Character
+                and root.Parent
+                and (root.Position - position).Magnitude > 3 do
+
+                    local distance = (root.Position - position).Magnitude
+                    local dir = (position - root.Position).Unit
+                    local speed = distance < 40 and 300 or FLY_SPEED
+
+                    bv.Velocity = dir * speed
+                    task.wait()
+                end
+
+                bv.Velocity = Vector3.zero
+            end
+
+            -- ===== FIND NEAREST =====
+            local nearest
+            local shortest = math.huge
+
+            for _, obj in pairs(tierFolder:GetChildren()) do
+                local part = obj:IsA("Model") and obj:FindFirstChildWhichIsA("BasePart") or obj
+                if part and part:IsA("BasePart") then
+                    local dist = (root.Position - part.Position).Magnitude
+                    if dist < shortest then
+                        shortest = dist
+                        nearest = part
+                    end
+                end
+            end
+
+            if nearest then
+                local startPos = root.Position
+                local startXZ = Vector3.new(startPos.X, TARGET_Y, startPos.Z)
+
+                flyTo(startXZ)
+
+                local below = Vector3.new(
+                    nearest.Position.X,
+                    nearest.Position.Y + BELOW_OFFSET,
+                    nearest.Position.Z
+                )
+
+                flyTo(below)
+                flyTo(nearest.Position)
+
+                local prompt = nearest:FindFirstChildWhichIsA("ProximityPrompt", true)
+                if prompt then
+                    prompt.HoldDuration = 0
+                    fireproximityprompt(prompt)
+                end
+
+                task.wait(1)
+
+                flyTo(startXZ)
+                flyTo(FINAL_POSITION)
+            end
+
+            bv:Destroy()
+            bp:Destroy()
+
+            task.wait(0.3)
+        end
+
+        -- CLEANUP khi tắt
+        if noclipConnection then
+            noclipConnection:Disconnect()
+            noclipConnection = nil
+        end
+
+        farmThread = nil
+    end)
+end
+
+-- =============================
+-- TOGGLE
+-- =============================
+
+AddToggle(Tab2o, {
+    Name = "Auto Farm Selected Tier",
+    Default = false,
+    Callback = function(Value)
+        tierEnabled = Value
+
+        if tierEnabled then
+            startTierFarm()
+        else
+            tierEnabled = false
+        end
+    end
+})
+
+-- =============================
+-- RESPAWN FIX CHUẨN
+-- =============================
+
+player.CharacterAdded:Connect(function()
+    if tierEnabled then
+        task.wait(1.2)
+        startTierFarm()
+    end
+end)
+
+
+                    
+                    
+-- =============================
+-- AUTO FARM HIGH TIER ONLY
+-- =============================
+
+local highTierEnabled = false
+local priorityTiers = {"Infinity", "Divine", "Celestial"}
+local farmThread = nil
+
+local function startHighTierFarm()
+
+    farmThread = task.spawn(function()
+
+        while highTierEnabled do
+            local player = game.Players.LocalPlayer
+            local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if not root then task.wait() continue end
+
+            local folder = workspace:FindFirstChild("ActiveBrainrots")
+            if not folder then task.wait(1) continue end
+
+            -- ===== TÌM THEO THỨ TỰ ƯU TIÊN =====
+            local tierFolder = nil
+
+            for _, tierName in ipairs(priorityTiers) do
+                local checkFolder = folder:FindFirstChild(tierName)
+                if checkFolder and #checkFolder:GetChildren() > 0 then
+                    tierFolder = checkFolder
+                    break
+                end
+            end
+
+            if not tierFolder then
+                task.wait(1)
+                continue
+            end
+
+            -- ===== NOCLIP =====
+            local connection
+            connection = game:GetService("RunService").Stepped:Connect(function()
+                if not highTierEnabled then
+                    connection:Disconnect()
+                    return
+                end
+
+                if player.Character then
+                    for _, v in pairs(player.Character:GetDescendants()) do
+                        if v:IsA("BasePart") then
+                            v.CanCollide = false
+                        end
+                    end
+                end
+            end)
+
+                      -- ===== BODY MOVERS =====
+            local bv = Instance.new("BodyVelocity")
+            bv.MaxForce = Vector3.new(1e9,1e9,1e9)
+            bv.Parent = root
+
+            local bp = Instance.new("BodyPosition")
+            bp.MaxForce = Vector3.new(1e9,1e9,1e9)
+            bp.P = 10000
+            bp.D = 1000
+            bp.Parent = root
+
+            local function flyTo(position)
+                bp.Position = position
+
+                while highTierEnabled and root and (root.Position - position).Magnitude > 3 do
+                    local distance = (root.Position - position).Magnitude
+                    local dir = (position - root.Position).Unit
+
+                    local speed = distance < 40 and 300 or 1000
+                    bv.Velocity = dir * speed
+                    task.wait()
+                end
+
+                bv.Velocity = Vector3.zero
+            end
+
+            -- ===== TÌM GẦN NHẤT =====
+            local nearest
+            local shortest = math.huge
+
+            for _, obj in pairs(tierFolder:GetChildren()) do
+                local part = obj:IsA("Model") and obj:FindFirstChildWhichIsA("BasePart") or obj
+                if part and part:IsA("BasePart") then
+                    local dist = (root.Position - part.Position).Magnitude
+                    if dist < shortest then
+                        shortest = dist
+                        nearest = part
+                    end
+                end
+            end
+
+            if not nearest then
+                bv:Destroy()
+                bp:Destroy()
+                connection:Disconnect()
+                task.wait(0.5)
+                continue
+            end
+
+            -- ===== MOVE LOGIC =====
+            local startPos = root.Position
+            local startXZ = Vector3.new(startPos.X, -2.74, startPos.Z)
+
+            flyTo(startXZ)
+
+            local below = Vector3.new(
+                nearest.Position.X,
+                nearest.Position.Y - 6,
+                nearest.Position.Z
+            )
+
+            flyTo(below)
+            flyTo(nearest.Position)
+
+            local prompt = nearest:FindFirstChildWhichIsA("ProximityPrompt", true)
+            if prompt then
+                prompt.HoldDuration = 0
+                fireproximityprompt(prompt)
+            end
+
+            task.wait(1)
+
+            flyTo(startXZ)
+            flyTo(FINAL_POSITION)
+
+            bv:Destroy()
+            bp:Destroy()
+            connection:Disconnect()
+
+            task.wait(0.3)
+        end
+    end)
+end
+
+
+AddToggle(Tab2o, {
+    Name = "Auto Farm Infinity/Divine/Celestial",
+    Default = false,
+    Callback = function(Value)
+
+        highTierEnabled = Value
+
+        if highTierEnabled then
+            startHighTierFarm()
+        end
+    end
+})
+
+
+-- =============================
+-- RESPAWN AUTO
+-- =============================
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    if highTierEnabled then
+        task.wait(1)
+        startHighTierFarm()
+    end
+end)

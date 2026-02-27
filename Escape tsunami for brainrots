@@ -719,23 +719,6 @@ AddToggle(Tab2o, {
             return
         end
 
- local autoBrainFarm = false
-local brainThread
-
-AddToggle(Tab1o, {
-    Name = "Auto Farm Brainrots",
-    Default = false,
-    Callback = function(Value)
-
-        autoBrainFarm = Value
-
-        if not autoBrainFarm then
-            if brainThread then
-                task.cancel(brainThread)
-                brainThread = nil
-            end
-            return
-        end
 
         -- ==========================================
         -- AUTO SECRET MERGED (FINAL -4 VERSION)
